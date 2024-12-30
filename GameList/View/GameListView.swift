@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct GameListView: View {
+    typealias ConstantSize = GameListViewConstants.sizes
+    typealias ConstantString = GameListViewConstants.strings
+    
     @ObservedObject var viewModel = GameListViewModel()
     @State private var showPicker = false
     @State private var localCategory: String = ""
+    
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Buscar", text: $viewModel.searchQuery)
+                TextField(ConstantString.searchTitle, text: $viewModel.searchQuery)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding()
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
-                    .shadow(color: .blue, radius: 5, x: 0, y: 3)
+                    .background(Color.blue.opacity(ConstantSize.searchBackgroundOpacity))
+                    .cornerRadius(ConstantSize.searchCornerRadius)
+                    .shadow(color: .blue, radius: ConstantSize.searchRadius, x: ConstantSize.searchX, y: ConstantSize.searchY)
                     .padding(.horizontal)
 
                 Button(action: {
@@ -28,51 +32,59 @@ struct GameListView: View {
                     }
                 }) {
                     HStack {
-                        Text(localCategory.isEmpty ? "Seleccionar género" : localCategory)
+                        Text(localCategory.isEmpty ? ConstantString.buttonPickerTitle : localCategory)
                             .foregroundColor(.white)
                             .font(.title3)
                         Spacer()
-                        Image(systemName: showPicker ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
-                            .foregroundColor(.blue)
+                        Image(systemName: showPicker ? ConstantString.buttonPickerUp : ConstantString.buttonPickerDown)
+                            .foregroundColor(.white)
                             .font(.title2)
                     }
                     .padding()
                     .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                    .cornerRadius(8)
-                    .shadow(color: .blue, radius: 5, x: 0, y: 3)
+                    .cornerRadius(ConstantSize.pickerCornerRadius)
+                    .shadow(color: .blue, radius: ConstantSize.pickerRadius, x: ConstantSize.pickerX, y: ConstantSize.pickerY)
                 }
 
                 if showPicker {
-                    Picker("Género", selection: $localCategory) {
-                        Text("Todos").tag("")
+                    Picker(ConstantString.pickerGenre, selection: $localCategory) {
+                        Text(ConstantString.pickerDefaultAll).tag("")
                         ForEach(viewModel.games.compactMap { $0.genre }.unique(), id: \.self) { genre in
                             Text(genre).tag(genre)
                         }
                     }
                     .pickerStyle(WheelPickerStyle())
-                    .frame(height: 150)
+                    .frame(height: ConstantSize.pickerButtonFrame)
                     .padding(.horizontal)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                    .cornerRadius(8)
+                    .cornerRadius(ConstantSize.pickerButtonCornerRadius)
                     .transition(.move(edge: .top))
-                    .padding(.bottom, 10)
+                    .padding(.bottom, ConstantSize.pickerButtonPadding)
                 }
 
                 List(viewModel.filteredGames) { game in
-                    NavigationLink(destination: GameDetailView(game: game)) {
+                    NavigationLink(destination: GameDetailView(
+                        game: game,
+                        onDelete: { gameToDelete in
+                            deleteGame(gameToDelete)
+                        },
+                        onEdit: { updatedGame in
+                            editGame(updatedGame)
+                        }
+                    )) {
                         HStack {
-                            Image(systemName: "gamecontroller.fill")
+                            Image(systemName: ConstantString.imageGameName)
                                 .foregroundColor(Color.blue)
                                 .padding(.trailing)
 
                             Text(game.title)
                                 .font(.headline)
                                 .foregroundColor(.white)
-                                .padding(.vertical, 10)
+                                .padding(.vertical, ConstantSize.textGamePaddingVertical)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                                .cornerRadius(8)
-                                .shadow(color: .gray, radius: 3, x: 0, y: 2)
+                                .cornerRadius(ConstantSize.textGameCornerRadius)
+                                .shadow(color: .gray, radius: ConstantSize.textGameColorRadius, x: ConstantSize.textGameColorX, y: ConstantSize.textGameColorY)
                         }
                         .padding(.horizontal)
                     }
@@ -80,13 +92,25 @@ struct GameListView: View {
                 .listStyle(PlainListStyle())
                 .background(Color(UIColor.systemGroupedBackground))
             }
-            .navigationTitle("Videojuegos")
+            .navigationTitle(ConstantString.navigationTitle)
             .onAppear {
                 viewModel.loadGames()
             }
             .onChange(of: localCategory) { newCategory in
                 viewModel.selectedCategory = newCategory
             }
+        }
+    }
+    
+    private func deleteGame(_ game: Game) {
+        withAnimation {
+            viewModel.games.removeAll { $0.id == game.id }
+        }
+    }
+    
+    private func editGame(_ updatedGame: Game) {
+        if let index = viewModel.games.firstIndex(where: { $0.id == updatedGame.id }) {
+            viewModel.games[index] = updatedGame
         }
     }
 }
