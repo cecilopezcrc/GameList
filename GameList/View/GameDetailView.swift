@@ -9,7 +9,10 @@ import SwiftUI
 
 struct GameDetailView: View {
     typealias ConstantSize = GameDetailViewConstants.sizes
+    typealias ConstantString = GameDetailViewConstants.strings
     var game: Game
+    var onDelete: (Game) -> Void
+    var onEdit: (Game) -> Void
     
     var body: some View {
         VStack(spacing: ConstantSize.vStackSpacing) {
@@ -32,20 +35,21 @@ struct GameDetailView: View {
             
             Button(action: {
             }) {
-                Text("Editar videojuego")
+                Text(ConstantString.buttonEditText)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                    .cornerRadius(ConstantSize.buttonEdithCornerRadius)
-                    .shadow(radius: ConstantSize.buttonEdithShadowRadius)
+                    .cornerRadius(ConstantSize.buttonEditCornerRadius)
+                    .shadow(radius: ConstantSize.buttonEditShadowRadius)
             }
             .padding(.horizontal)
             
             Button(action: {
+                onDelete(game)
             }) {
-                Text("Eliminar videojuego")
+                Text(ConstantString.buttonEliminateText)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

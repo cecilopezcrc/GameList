@@ -21,6 +21,7 @@
 		4D4119922D2335900016B9CD /* GameDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4119912D2335900016B9CD /* GameDetailViewModel.swift */; };
 		4D4119942D23427A0016B9CD /* SplashViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4119932D23427A0016B9CD /* SplashViewConstants.swift */; };
 		4D4119962D2347010016B9CD /* GameDetailViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4119952D2347010016B9CD /* GameDetailViewConstants.swift */; };
+		4D4119982D23519C0016B9CD /* GameListViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4119972D23519C0016B9CD /* GameListViewConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		4D4119912D2335900016B9CD /* GameDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailViewModel.swift; sourceTree = "<group>"; };
 		4D4119932D23427A0016B9CD /* SplashViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewConstants.swift; sourceTree = "<group>"; };
 		4D4119952D2347010016B9CD /* GameDetailViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailViewConstants.swift; sourceTree = "<group>"; };
+		4D4119972D23519C0016B9CD /* GameListViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListViewConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				4D41198B2D23354E0016B9CD /* GameListView.swift */,
 				4D4119932D23427A0016B9CD /* SplashViewConstants.swift */,
 				4D4119952D2347010016B9CD /* GameDetailViewConstants.swift */,
+				4D4119972D23519C0016B9CD /* GameListViewConstants.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 				4D41198A2D2335340016B9CD /* GameDetailView.swift in Sources */,
 				4D4119732D2334990016B9CD /* GameListApp.swift in Sources */,
 				4D4119842D2334E30016B9CD /* GameModel.swift in Sources */,
+				4D4119982D23519C0016B9CD /* GameListViewConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
